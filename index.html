@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Tata ❤️</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(to top,#ff6fa5,#ffc0cb);
+overflow:hidden;
+color:white;
+text-align:center;
+}
+
+/* Pages */
+.page{
+position:absolute;
+width:100%;
+height:100vh;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+box-sizing:border-box;
+}
+.active{display:flex;}
+
+/* Buttons */
+button{
+padding:12px 25px;
+background:white;
+color:#ff4e88;
+border:none;
+border-radius:25px;
+margin-top:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* Floating Emojis */
+.floating{
+position:absolute;
+animation:floatUp 18s linear infinite;
+opacity:0.8;
+}
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:0;}
+50%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* Envelope */
+.envelope{
+width:250px;
+height:160px;
+background:#ff4e88;
+border-radius:10px;
+position:relative;
+cursor:pointer;
+}
+.flap{
+position:absolute;
+width:0;
+height:0;
+border-left:125px solid transparent;
+border-right:125px solid transparent;
+border-bottom:80px solid #ff8fab;
+top:-80px;
+left:0;
+transition:0.6s;
+transform-origin:top;
+}
+.letter{
+position:absolute;
+width:220px;
+height:150px;
+background:white;
+color:#ff4e88;
+padding:15px;
+border-radius:8px;
+top:10px;
+left:15px;
+transform:translateY(0);
+transition:0.6s;
+opacity:0;
+overflow:auto;
+font-size:14px;
+}
+.open .flap{transform:rotateX(180deg);}
+.open .letter{
+transform:translateY(-170px);
+opacity:1;
+}
+
+/* Images */
+img{
+max-width:80%;
+border-radius:20px;
+box-shadow:0 0 20px rgba(255,255,255,0.7);
+}
+
+/* Gallery Float */
+.gallery-photo{
+position:absolute;
+width:120px;
+border-radius:15px;
+animation:photoFloat 20s linear infinite;
+}
+@keyframes photoFloat{
+0%{transform:translateY(100vh);opacity:0;}
+20%{opacity:1;}
+80%{opacity:1;}
+100%{transform:translateY(-20vh);opacity:0;}
+}
+
+/* Sparkle */
+.sparkle{
+position:absolute;
+font-size:18px;
+animation:spark 2s ease-out forwards;
+}
+@keyframes spark{
+0%{opacity:1; transform:scale(1);}
+100%{opacity:0; transform:scale(2);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="https://files.catbox.moe/yoxlob.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+<img src="https://i.ibb.co/N2yBG9xZ/1770894523010.png">
+<h2>Something Beautiful For You, Tata 💖</h2>
+<button onclick="startSite()">Open</button>
+</div>
+
+<!-- PAGE 2 Envelope -->
+<div class="page" id="page2">
+<div class="envelope" onclick="openLetter()">
+<div class="flap"></div>
+<div class="letter" id="letterText"></div>
+</div>
+<button onclick="nextPage(3)">Next</button>
+</div>
+
+<!-- PAGE 3 Proposal -->
+<div class="page" id="page3">
+<img src="https://i.ibb.co/SpqtSqh/file-00000000376072078b08d9b3df005cfe.png">
+<h2>Will You Stay With Me Forever, Tata? 💍</h2>
+<button onclick="nextPage(4)">Yes ❤️</button>
+</div>
+
+<!-- PAGE 4 Funny -->
+<div class="page" id="page4">
+<h2>Do You Love Me? 😏</h2>
+<button onclick="nextPage(5)">Obviously Yes 😍</button>
+<button onmouseover="moveButton(this)">No 😜</button>
+</div>
+
+<!-- PAGE 5 Gallery -->
+<div class="page" id="page5">
+<h2>Our Beautiful Memories 💕</h2>
+<button onclick="nextPage(6)">Next 💖</button>
+</div>
+
+<!-- PAGE 6 Quiz -->
+<div class="page" id="page6">
+<h2>Little Love Quiz 💕</h2>
+<p id="question"></p>
+<div id="options"></div>
+</div>
+
+<!-- PAGE 7 Final -->
+<div class="page" id="page7">
+<img src="https://i.ibb.co/xKzMvX9M/Polish-20260208-105327216.jpg">
+<h2>Forever & Always ❤️ Tata</h2>
+<p>You are my today and all of my tomorrows.</p>
+<button onclick="softFireworks()">Celebrate ✨</button>
+<button onclick="nextPage(1)">Replay 🔁</button>
+</div>
+
+<script>
+
+/* Floating Background */
+let emojis=["🌸","💖","🌷","🌹","💕"];
+for(let i=0;i<35;i++){
+let span=document.createElement("span");
+span.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+span.className="floating";
+span.style.left=Math.random()*100+"vw";
+span.style.fontSize=(Math.random()*20+15)+"px";
+span.style.animationDuration=(Math.random()*10+10)+"s";
+document.body.appendChild(span);
+}
+
+/* Start */
+function startSite(){
+document.getElementById("music").play();
+nextPage(2);
+typeLetter();
+}
+
+/* Page Switch */
+function nextPage(num){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById("page"+num).classList.add("active");
+}
+
+/* Envelope */
+function openLetter(){
+document.querySelector(".envelope").classList.toggle("open");
+}
+
+/* Letter Text */
+let text=`My Dearest Tata ❤️
+
+From the day you entered my life,
+everything became more beautiful.
+
+Your smile gives me peace.
+Your love gives me strength.
+
+No matter what happens,
+I promise to stand beside you
+and choose you every single day.
+
+You are my happiness,
+my calm,
+my forever.
+
+Forever Yours,
+Nanay ❤️`;
+
+let i=0;
+function typeLetter(){
+let letter=document.getElementById("letterText");
+letter.innerHTML="";
+function typing(){
+if(i<text.length){
+letter.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,30);
+}
+}
+typing();
+}
+
+/* Funny NO */
+function moveButton(btn){
+btn.style.position="absolute";
+btn.style.left=Math.random()*80+"%";
+btn.style.top=Math.random()*80+"%";
+}
+
+/* Gallery */
+let galleryPhotos=[
+"https://i.ibb.co/3YdJLwq2/IMG-20260210-151451.png",
+"https://i.ibb.co/fYsy697j/Polish-20260210-151605536.png",
+"https://i.ibb.co/fd5LPwWC/file-0000000005a0720881fd4e2cf45eea99-1.png",
+"https://i.ibb.co/JW1dsZp7/Polish-20260210-165306934.jpg"
+];
+
+galleryPhotos.forEach((src,i)=>{
+setTimeout(()=>{
+let img=document.createElement("img");
+img.src=src;
+img.className="gallery-photo";
+img.style.left=Math.random()*70+"vw";
+document.getElementById("page5").appendChild(img);
+},i*4000);
+});
+
+/* Quiz */
+let quizData=[
+{q:"When I look at Tata, what do I feel? 💕",
+o:["Peace 🤍","Love ❤️","All of the above ✨"],
+c:2,
+m:"Because you are my everything 💖"},
+{q:"Who gets angry first? 😜",
+o:["Tata 😅","Nanay 😎"],
+c:0,
+m:"But even when you're angry, you're cutest 💕"},
+{q:"If life gives me one choice, I choose?",
+o:["Money 💰","Tata ❤️"],
+c:1,
+m:"Forever Tata 💖"}
+];
+
+let current=0;
+
+function loadQuiz(){
+let q=quizData[current];
+document.getElementById("question").innerText=q.q;
+let optDiv=document.getElementById("options");
+optDiv.innerHTML="";
+q.o.forEach((opt,index)=>{
+let btn=document.createElement("button");
+btn.innerText=opt;
+btn.style.display="block";
+btn.style.margin="10px auto";
+btn.onclick=()=>check(index);
+optDiv.appendChild(btn);
+});
+}
+
+function check(i){
+if(i===quizData[current].c){
+alert(quizData[current].m);
+current++;
+if(current<quizData.length){
+loadQuiz();
+}else{
+nextPage(7);
+}
+}else{
+alert("Wrong 😜 Try again!");
+}
+}
+
+let originalNext=nextPage;
+nextPage=function(n){
+originalNext(n);
+if(n===6){
+current=0;
+loadQuiz();
+}
+}
+
+/* Sparkle */
+function softFireworks(){
+for(let i=0;i<20;i++){
+let s=document.createElement("div");
+s.innerHTML="✨";
+s.className="sparkle";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),2000);
+}
+}
+
+</script>
+</body>
+  </html>
